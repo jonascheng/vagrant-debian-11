@@ -5,6 +5,10 @@ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 SCRIPT
 
 Vagrant.configure("2") do |config|
+  if Vagrant.has_plugin?("vagrant-vbguest")
+    config.vbguest.auto_update = false
+  end
+  
   config.vm.box = "debian/bullseye64"
 
   # Linux bullseye 5.10.0-13-amd64 #1 SMP Debian 5.10.106-1 (2022-03-17) x86_64 GNU/Linux
@@ -16,7 +20,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "docker"
   config.vm.provision "shell", inline: $dockercompose
 
-  config.vm.define "web" do |node|
-    node.vm.network "private_network", type: "dhcp"
-  end
+  # config.vm.define "web" do |node|
+  #   node.vm.network "private_network", type: "dhcp"
+  # end
 end
